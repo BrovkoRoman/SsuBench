@@ -68,6 +68,8 @@
 
     curl -X POST http://localhost:8080/user/register -H "Content-Type: application/json" -d "{\"login\": \"customer1\", \"password\": \"12345\", \"role\": \"CUSTOMER\"}"
 
+Зарегистрироваться можно только с ролями CUSTOMER и EXECUTOR, для роли ADMIN используйте аутентификацию с логином "admin" и паролем "admin" (этот пользователь определен в миграциях).
+
 ### Создать задание
 
 Вместо \<token> нужно подставить значение jwt, полученное при регистрации или входе в систему. Чтобы создать задание, нужно войти с ролью CUSTOMER.
