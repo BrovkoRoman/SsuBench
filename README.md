@@ -6,6 +6,8 @@
 
     Java 17, Spring Boot 4.0.3
 
+    Maven
+
     PostgreSQL (в Docker)
 
     Flyway (миграции)
@@ -75,3 +77,7 @@
 Вместо \<token> нужно подставить значение jwt, полученное при регистрации или входе в систему. Чтобы создать задание, нужно войти с ролью CUSTOMER.
 
     curl -X POST http://localhost:8080/task -H "Content-Type: application/json" -H "Authorization: Bearer <token>" -d "{\"text\": \"Task description\", \"rewardMoney\": \"100\"}"  
+
+## Запустить тесты
+
+    mvn test
