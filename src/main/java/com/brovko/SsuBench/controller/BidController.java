@@ -109,13 +109,11 @@ public class BidController {
 
             if (customerUser != null && customerUser.getId().equals(task.getCustomerUser().getId())) {
                 if (accept) {
-                    paymentService.transferMoney(customerUser, executorUser, bid, task.getRewardMoney());
-                    bid.setStatus(Bid.BidStatus.DONE);
+                    return paymentService.transferMoneyAndAcceptBid(customerUser, executorUser, bid, task.getRewardMoney());
                 } else {
                     bid.setStatus(Bid.BidStatus.IN_PROGRESS);
+                    return bidService.save(bid);
                 }
-
-                return bidService.save(bid);
             }
         }
 
