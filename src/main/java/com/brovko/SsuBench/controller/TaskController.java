@@ -31,8 +31,10 @@ public class TaskController {
     private BidService bidService;
 
     @GetMapping
-    public PagedModel<Task> getTasks(Pageable pageable) {
-        log.info("getTasks (requestId={})", MDC.get("requestId"));
+    public PagedModel<Task> getTasks(Pageable pageable,
+                                     @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        log.info("ADMIN OPERATION: getTasks (requestId={})", MDC.get("requestId"));
+        jwtService.checkAdminRights(authorizationHeader);
         return new PagedModel<>(taskService.getTasks(pageable));
     }
 
@@ -70,6 +72,10 @@ public class TaskController {
 
             if (user != null && user.isBlocked()) {
                 throw new BlockedUserException("You are blocked");
+            }
+
+            if (task == null || bid == null) {
+                throw new BusinessException("Not Found", HttpServletResponse.SC_NOT_FOUND);
             }
 
             if (task.getConfirmedBid() != null) {

@@ -14,6 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+
+import static com.brovko.SsuBench.entity.User.Role.ADMIN;
+
 @Service
 public class JwtService {
     @Value("${jwt.secret}")
@@ -31,9 +35,11 @@ public class JwtService {
     private UserService userService;
 
     public String create(User user) {
+        Date expiresAt = new Date(System.currentTimeMillis() + 3600000);
         try {
             return JWT.create()
                     .withClaim("userId", user.getId())
+                    .withExpiresAt(expiresAt)
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new BusinessException("Can't create JWT.", HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -47,5 +53,22 @@ public class JwtService {
         } catch (JWTVerificationException exception) {
             return null;
         }
+    }
+
+    public void checkAdminRights(String authorizationHeader) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String jwt = authorizationHeader.substring(7);
+            User user = find(jwt);
+
+            if (user == null || user.getRole() != ADMIN) {
+                throw new BusinessException("You should have admin rights to do this operation",
+                        HttpServletResponse.SC_FORBIDDEN);
+            }
+
+            return;
+        }
+
+        throw new BusinessException("You should have admin rights to do this operation",
+                HttpServletResponse.SC_FORBIDDEN);
     }
 }

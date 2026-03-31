@@ -1,17 +1,13 @@
 package com.brovko.SsuBench.dto;
 
 import com.brovko.SsuBench.exception.ValidationException;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class BidRequestDto {
     private Long taskId;
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
 
     public void validate() {
         if (taskId == null) {

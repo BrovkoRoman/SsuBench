@@ -1,5 +1,10 @@
 package com.brovko.SsuBench.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Setter
+@Getter
 public class JwtResponseDto {
     private String jwt;
 
@@ -7,11 +12,4 @@ public class JwtResponseDto {
         this.jwt = jwt;
     }
 
-    public String getJwt() {
-        return jwt;
-    }
-
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
 }

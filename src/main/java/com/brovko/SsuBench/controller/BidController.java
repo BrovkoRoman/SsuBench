@@ -31,8 +31,10 @@ public class BidController {
     private PaymentService paymentService;
 
     @GetMapping
-    public PagedModel<Bid> getBids(Pageable pageable) {
-        log.info("getBids (requestId={})", MDC.get("requestId"));
+    public PagedModel<Bid> getBids(Pageable pageable,
+                                   @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        log.info("ADMIN OPERATION: getBids (requestId={})", MDC.get("requestId"));
+        jwtService.checkAdminRights(authorizationHeader);
         return new PagedModel<>(bidService.getBids(pageable));
     }
 

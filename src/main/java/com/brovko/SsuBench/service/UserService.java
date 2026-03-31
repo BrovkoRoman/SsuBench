@@ -2,12 +2,16 @@ package com.brovko.SsuBench.service;
 
 import com.brovko.SsuBench.dto.UserRegisterRequestDto;
 import com.brovko.SsuBench.entity.User;
+import com.brovko.SsuBench.exception.BusinessException;
 import com.brovko.SsuBench.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import static com.brovko.SsuBench.entity.User.Role.ADMIN;
 
 @Service
 public class UserService {

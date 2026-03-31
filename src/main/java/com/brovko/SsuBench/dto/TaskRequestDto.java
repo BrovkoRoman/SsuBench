@@ -1,27 +1,15 @@
 package com.brovko.SsuBench.dto;
 
 import com.brovko.SsuBench.exception.ValidationException;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 public class TaskRequestDto {
     private String text;
 
     private Long rewardMoney;
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public Long getRewardMoney() {
-        return rewardMoney;
-    }
-
-    public void setRewardMoney(Long rewardMoney) {
-        this.rewardMoney = rewardMoney;
-    }
 
     public void validate() {
         if (text == null) {

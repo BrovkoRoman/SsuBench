@@ -28,7 +28,10 @@ public class UserController {
     private JwtService jwtService;
 
     @GetMapping
-    public PagedModel<User> getUsers(Pageable pageable) {
+    public PagedModel<User> getUsers(Pageable pageable,
+                                     @RequestHeader(name = "Authorization", required = false) String authorizationHeader) {
+        log.info("ADMIN OPERATION: getUsers (requestId={})", MDC.get("requestId"));
+        jwtService.checkAdminRights(authorizationHeader);
         return new PagedModel<>(userService.getUsers(pageable));
     }
 

@@ -51,7 +51,14 @@ public class TaskService {
         return task;
     }
 
+    @Transactional
     public void deleteById(Long taskId) {
+        Task task = findById(taskId);
+
+        if (task.getConfirmedBid() != null) {
+            bidRepository.deleteById(task.getConfirmedBid().getId());
+        }
+
         taskRepository.deleteById(taskId);
     }
 }
