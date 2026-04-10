@@ -22,21 +22,11 @@
 
     cd SsuBench
 
-### 2. Запуск PostgreSQL через Docker Compose
+### 2. Запуск через Docker Compose
 
     docker-compose up -d
 
-Это поднимет PostgreSQL на порту 5432 и PgAdmin на порту 5050
-
-### 3. Открыть папку в IntelliJ IDEA и запустить проект
-
-Нужно запустить файл:
-
-    src/main/java/com/brovko/SsuBench/SsuBenchApplication.java
-
-При первом запуске Flyway автоматически выполнит миграции и создаст схему базы данных.
-
-### 4. Проверка работоспособности
+### 3. Проверка работоспособности
 
     curl localhost:8080/v3/api-docs.yaml
 

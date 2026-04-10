@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   postgres:
     image: postgres:15
@@ -12,7 +13,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - db-network
+      - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -26,14 +32,31 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     networks:
-      - db-network
+      - app-network
     depends_on:
       - postgres
+
+  app:
+    build: .
+    container_name: ssubench-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 12345
+      JWT_SECRET: super-secret-key-for-production
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - app-network
+    restart: on-failure
 
 volumes:
   postgres_data:
   pgadmin_data:
 
 networks:
-  db-network:
+  app-network:
     driver: bridge
